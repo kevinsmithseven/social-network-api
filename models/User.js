@@ -35,7 +35,18 @@ const userSchema = new Schema(
             },
         ],
     },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        id: false,
+    }
 );
+
+// Create a virtual property 'friendCount' that retrieves the amount of friends a user has
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+})
 
 
 // Initialize our User model
