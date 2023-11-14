@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const { User, Thought, Reaction } = require('../models');
 
 module.exports = {
     // GET all users
@@ -36,4 +36,38 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+    // Update a user
+    async updateUser(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $set: req.body },
+                { runValidators: true, new: true}
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with this id found' });
+            }
+
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);        }
+    },
+    // Delete a user
+    async deleteUser(req, res) {
+        try {
+            const user = await User.findByIdAndRemove({ _id: req.params.userId}
+            );
+
+            if(!user) {
+                return res.status(404).json({ message: 'No user with id found' });
+            }
+
+            //TODO remove a user's thoughts when user is deleted
+
+            res.json({ message: 'User successfully deleted' });
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
 };
