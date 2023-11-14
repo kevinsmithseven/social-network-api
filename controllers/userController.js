@@ -14,12 +14,12 @@ module.exports = {
     async getSingleUser(req, res) {
         try {
             const user = await User.findOne({ _id: req.params.userId })
-            .select('-__v');
+                .select('-__v');
             // TODO
             // .populate('thoughts', 'reactions')
 
             if (!user) {
-                return res.status(404).json({ message: 'No user with that ID'});
+                return res.status(404).json({ message: 'No user with that ID' });
             }
 
             res.json(user);
@@ -42,7 +42,7 @@ module.exports = {
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
                 { $set: req.body },
-                { runValidators: true, new: true}
+                { runValidators: true, new: true }
             );
 
             if (!user) {
@@ -51,15 +51,16 @@ module.exports = {
 
             res.json(user);
         } catch (err) {
-            res.status(500).json(err);        }
+            res.status(500).json(err);
+        }
     },
     // Delete a user
     async deleteUser(req, res) {
         try {
-            const user = await User.findByIdAndRemove({ _id: req.params.userId}
+            const user = await User.findByIdAndRemove({ _id: req.params.userId }
             );
 
-            if(!user) {
+            if (!user) {
                 return res.status(404).json({ message: 'No user with id found' });
             }
 
