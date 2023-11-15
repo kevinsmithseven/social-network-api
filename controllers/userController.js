@@ -1,4 +1,4 @@
-const { User, Thought, Reaction } = require('../models/User');
+const { User, Thought } = require('../models');
 
 module.exports = {
     // GET all users
@@ -15,7 +15,7 @@ module.exports = {
         try {
             const user = await User.findOne({ _id: req.params.userId })
                 .select('-__v')
-                .populate('thought')
+                .populate('thought') //* is this correct?
 
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
